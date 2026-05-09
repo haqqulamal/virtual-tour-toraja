@@ -1,183 +1,347 @@
 <!DOCTYPE html>
-<html lang="{{ app()->getLocale() }}">
+<html lang="{{ app()->getLocale() }}" dir="{{ app()->getLocale() === 'ar' ? 'rtl' : 'ltr' }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'Virtual Tour Budaya Toraja')</title>
     
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome for icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Custom CSS -->
+    <!-- Custom Styles -->
     <style>
         :root {
-            --primary-dark: #0f1412;
-            --surface-dark: #1a2320;
+            --bg-dark: #0f1412;
+            --bg-surface: #1a2320;
             --text-light: #e8f0ea;
-            --accent-green: #2d9b6f;
-            --accent-blue: #3b82f6;
+            --primary-green: #2d9b5e;
+            --primary-teal: #1a7f6f;
+            --accent-cyan: #4db8a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--primary-dark);
+            background-color: var(--bg-dark);
             color: var(--text-light);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
         }
 
+        /* Navbar */
         .navbar {
-            background-color: var(--surface-dark) !important;
-            border-bottom: 2px solid var(--accent-green);
+            background-color: var(--bg-surface) !important;
+            border-bottom: 2px solid var(--primary-green);
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }
 
         .navbar-brand {
-            font-weight: bold;
-            color: var(--accent-green) !important;
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .navbar-brand i {
+            font-size: 1.8rem;
         }
 
         .nav-link {
             color: var(--text-light) !important;
+            font-weight: 500;
+            margin: 0 0.5rem;
             transition: color 0.3s ease;
+            position: relative;
         }
 
         .nav-link:hover {
-            color: var(--accent-green) !important;
+            color: var(--accent-cyan) !important;
         }
 
-        .btn-primary {
-            background-color: var(--accent-green);
-            border-color: var(--accent-green);
+        .nav-link.active {
+            color: var(--primary-green) !important;
         }
 
-        .btn-primary:hover {
-            background-color: #1f6f48;
-            border-color: #1f6f48;
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background-color: var(--primary-green);
+            border-radius: 2px;
         }
 
-        .card {
-            background-color: var(--surface-dark);
-            border: 1px solid var(--accent-green);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        /* Language Switcher */
+        .language-switcher {
+            margin-left: auto;
+            display: flex;
+            gap: 0.5rem;
         }
 
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(45, 155, 111, 0.3);
+        .lang-btn {
+            background-color: var(--bg-dark);
+            border: 2px solid var(--primary-teal);
+            color: var(--text-light);
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
         }
 
-        .footer {
-            background-color: var(--surface-dark);
-            border-top: 2px solid var(--accent-green);
+        .lang-btn:hover {
+            background-color: var(--primary-teal);
+            color: var(--bg-dark);
+        }
+
+        .lang-btn.active {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            color: var(--bg-dark);
+        }
+
+        /* Main Content */
+        main {
+            min-height: calc(100vh - 124px);
+            padding: 2rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background-color: var(--bg-surface);
+            border-top: 2px solid var(--primary-green);
+            padding: 3rem 0 1rem;
             margin-top: 4rem;
-            padding-top: 2rem;
-            padding-bottom: 2rem;
+            font-size: 0.95rem;
         }
 
-        .hero {
-            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-blue) 100%);
-            padding: 6rem 2rem;
+        .footer-section h6 {
+            color: var(--accent-cyan);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-bottom {
             text-align: center;
-            margin-bottom: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--primary-teal);
+            margin-top: 2rem;
+            color: #999;
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: white;
+        /* Utilities */
+        .text-primary-green {
+            color: var(--primary-green);
         }
 
-        .hero p {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            margin-top: 1rem;
+        .text-accent-cyan {
+            color: var(--accent-cyan);
         }
 
+        .btn-primary-green {
+            background-color: var(--primary-green);
+            border-color: var(--primary-green);
+            color: var(--bg-dark);
+            font-weight: 600;
+        }
+
+        .btn-primary-green:hover {
+            background-color: var(--primary-teal);
+            border-color: var(--primary-teal);
+        }
+
+        .btn-outline-green {
+            border: 2px solid var(--primary-green);
+            color: var(--primary-green);
+        }
+
+        .btn-outline-green:hover {
+            background-color: var(--primary-green);
+            color: var(--bg-dark);
+        }
+
+        /* Responsive */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 1.8rem;
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .language-switcher {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+
+            .nav-link.active::after {
+                display: none;
             }
         }
     </style>
 
-    @yield('extra_css')
+    @stack('styles')
 </head>
 <body>
-    <!-- Navigation -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="fas fa-globe"></i> Budaya Toraja
+            <!-- Brand -->
+            <a class="navbar-brand" href="{{ route('tour.index') }}">
+                <i class="fas fa-gopuram"></i>
+                <span>Virtual Tour</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+
+            <!-- Toggle Button -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Nav Content -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto gap-2">
+                    <!-- Beranda -->
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('home') }}">{{ __('messages.home') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('tour.show', 1) }}">{{ __('messages.virtual_tour') }}</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('artifacts.index') }}">{{ __('messages.artifacts') }}</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown">
-                            <i class="fas fa-language"></i> {{ app()->getLocale() === 'id' ? 'Bahasa Indonesia' : 'English' }}
+                        <a class="nav-link {{ Route::currentRouteName() === 'tour.index' ? 'active' : '' }}"
+                            href="{{ route('tour.index') }}">
+                            <i class="fas fa-home"></i>
+                            Beranda
                         </a>
-                        <ul class="dropdown-menu" aria-labelledby="languageDropdown">
-                            <li><a class="dropdown-item" href="{{ route('language.switch', 'id') }}">{{ __('messages.indonesian') }}</a></li>
-                            <li><a class="dropdown-item" href="{{ route('language.switch', 'en') }}">{{ __('messages.english') }}</a></li>
-                        </ul>
                     </li>
+
+                    <!-- Koleksi -->
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::currentRouteName() === 'collection.index' ? 'active' : '' }}"
+                            href="{{ route('collection.index') }}">
+                            <i class="fas fa-th-large"></i>
+                            Koleksi
+                        </a>
+                    </li>
+
+                    <!-- Admin Link (if authenticated and admin) -->
                     @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.dashboard') }}">{{ __('messages.admin_panel') }}</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button class="nav-link btn btn-link" type="submit">{{ __('messages.logout') }}</button>
-                            </form>
-                        </li>
+                        @if (Auth::user()->isAdmin())
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                                    <i class="fas fa-cog"></i>
+                                    Admin
+                                </a>
+                            </li>
+                        @endif
                     @endauth
+
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <a href="{{ route('locale.switch', 'id') }}"
+                            class="lang-btn {{ app()->getLocale() === 'id' ? 'active' : '' }}">
+                            ID
+                        </a>
+                        <a href="{{ route('locale.switch', 'en') }}"
+                            class="lang-btn {{ app()->getLocale() === 'en' ? 'active' : '' }}">
+                            EN
+                        </a>
+                    </div>
                 </ul>
             </div>
         </div>
     </nav>
 
-    <!-- Content -->
-    @yield('content')
+    <!-- Main Content -->
+    <main class="container-fluid">
+        @yield('content')
+    </main>
 
     <!-- Footer -->
-    <footer class="footer mt-5">
-        <div class="container">
+    <footer>
+        <div class="container-fluid">
             <div class="row">
-                <div class="col-md-4 mb-3">
-                    <h5>{{ __('messages.welcome') }}</h5>
-                    <p>{{ __('messages.welcome_subtitle') }}</p>
+                <!-- About -->
+                <div class="col-md-3 col-sm-6 footer-section mb-4">
+                    <h6>Tentang Virtual Tour</h6>
+                    <p>Platform interaktif untuk menjelajahi kekayaan budaya Toraja melalui pengalaman 360°.</p>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <h5>{{ __('messages.virtual_tour') }}</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ route('tour.show', 1) }}" class="text-decoration-none">Lembang Baruppu'</a></li>
-                        <li><a href="{{ route('tour.show', 2) }}" class="text-decoration-none">Liang Alang</a></li>
-                        <li><a href="{{ route('tour.show', 3) }}" class="text-decoration-none">Makam Ma'nene</a></li>
+
+                <!-- Quick Links -->
+                <div class="col-md-3 col-sm-6 footer-section mb-4">
+                    <h6>Menu Utama</h6>
+                    <ul>
+                        <li><a href="{{ route('tour.index') }}">Beranda</a></li>
+                        <li><a href="{{ route('collection.index') }}">Koleksi</a></li>
+                        @auth
+                            @if (Auth::user()->isAdmin())
+                                <li><a href="{{ route('admin.dashboard') }}">Admin Panel</a></li>
+                            @endif
+                        @endauth
                     </ul>
                 </div>
-                <div class="col-md-4 mb-3">
-                    <h5>{{ __('messages.contact') ?? 'Kontak' }}</h5>
-                    <p>
-                        <i class="fas fa-envelope"></i> info@toraja-tour.id<br>
-                        <i class="fas fa-phone"></i> +62-274-XXXX
-                    </p>
+
+                <!-- Cultural Info -->
+                <div class="col-md-3 col-sm-6 footer-section mb-4">
+                    <h6>Budaya Toraja</h6>
+                    <ul>
+                        <li><a href="{{ route('collection.index') }}?category=1">Tradisi & Upacara</a></li>
+                        <li><a href="{{ route('collection.index') }}?category=2">Bangunan Tradisional</a></li>
+                        <li><a href="{{ route('collection.index') }}?category=3">Seni & Kerajinan</a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact -->
+                <div class="col-md-3 col-sm-6 footer-section mb-4">
+                    <h6>Kontak & Sosial</h6>
+                    <div class="d-flex gap-3">
+                        <a href="#" title="Facebook" class="text-accent-cyan">
+                            <i class="fab fa-facebook fs-5"></i>
+                        </a>
+                        <a href="#" title="Instagram" class="text-accent-cyan">
+                            <i class="fab fa-instagram fs-5"></i>
+                        </a>
+                        <a href="#" title="Twitter" class="text-accent-cyan">
+                            <i class="fab fa-twitter fs-5"></i>
+                        </a>
+                        <a href="#" title="YouTube" class="text-accent-cyan">
+                            <i class="fab fa-youtube fs-5"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
-            <hr style="border-color: var(--accent-green);">
-            <div class="text-center">
-                <p class="mb-0">{{ __('messages.footer_text') }}</p>
+
+            <!-- Footer Bottom -->
+            <div class="footer-bottom">
+                <p>&copy; {{ date('Y') }} Virtual Tour Budaya Toraja. Semua hak dilindungi.</p>
+                <p>Dibuat dengan <i class="fas fa-heart text-primary-green"></i> untuk pelestarian budaya Toraja</p>
             </div>
         </div>
     </footer>
@@ -185,6 +349,6 @@
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    @yield('extra_js')
+    @stack('scripts')
 </body>
 </html>

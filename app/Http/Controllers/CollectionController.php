@@ -14,11 +14,14 @@ class CollectionController extends Controller
      */
     public function index(Request $request): View
     {
+        // Start query with category relationship
         $query = Artifact::query()->with('category');
 
-        // Filter by category
+        // Filter by category slug
         if ($request->filled('category')) {
-            $query->where('category_id', $request->get('category'));
+            $query->whereHas('category', function ($q) use ($request) {
+                $q->where('slug', $request->get('category'));
+            });
         }
 
         // Search by title or description
@@ -26,22 +29,17 @@ class CollectionController extends Controller
             $search = $request->get('search');
             $query->where(function ($q) use ($search) {
                 $q->where('title_id', 'like', "%{$search}%")
-                    ->orWhere('title_en', 'like', "%{$search}%")
-                    ->orWhere('description_id', 'like', "%{$search}%")
-                    ->orWhere('description_en', 'like', "%{$search}%");
+                    ->orWhere('title_en', 'like', "%{$search}%");
             });
         }
 
-        // Pagination
-        $artifacts = $query->paginate(12);
+        // Pagination with query string preservation
+        $artifacts = $query->paginate(12)->withQueryString();
 
-        // Get all categories for filter
-        $categories = Category::withCount('artifacts')->get();
+        // Get all categories for filter pills
+        $categories = Category::orderBy('name_id', 'asc')->get();
 
-        // Get featured artifacts for sidebar
-        $featured = Artifact::featured()->limit(5)->get();
-
-        return view('collection.index', compact('artifacts', 'categories', 'featured'));
+        return view('collection.index', compact('artifacts', 'categories'));
     }
 
     /**
@@ -49,13 +47,13 @@ class CollectionController extends Controller
      */
     public function show(Artifact $artifact): View
     {
-        // Get related artifacts from same category
-        $related = $artifact->category
+        // Get related artifacts from same category (limit 4)
+        $relatedArtifacts = $artifact->category
             ->artifacts()
             ->where('id', '!=', $artifact->id)
-            ->limit(6)
+            ->limit(4)
             ->get();
 
-        return view('collection.show', compact('artifact', 'related'));
+        return view('collection.show', compact('artifact', 'relatedArtifacts'));
     }
 }

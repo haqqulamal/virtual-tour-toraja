@@ -1,0 +1,352 @@
+VIRTUAL TOUR BUDAYA TORAJA - COMPLETE FILE LISTING
+===================================================
+
+PROJECT PATH: c:\xampp\htdocs\virtual-tour\
+
+MODELS (5 files)
+✓ app/Models/Scene.php
+✓ app/Models/Hotspot.php
+✓ app/Models/Artifact.php
+✓ app/Models/Category.php
+✓ app/Models/User.php
+
+CONTROLLERS - Frontend (2 files)
+✓ app/Http/Controllers/TourController.php
+✓ app/Http/Controllers/ArtifactController.php
+
+CONTROLLERS - Admin (5 files)
+✓ app/Http/Controllers/Admin/AdminDashboardController.php
+✓ app/Http/Controllers/Admin/SceneController.php
+✓ app/Http/Controllers/Admin/HotspotController.php
+✓ app/Http/Controllers/Admin/ArtifactController.php
+✓ app/Http/Controllers/Admin/CategoryController.php
+
+DATABASE MIGRATIONS (5 files)
+✓ database/migrations/2024_01_01_000001_create_categories_table.php
+✓ database/migrations/2024_01_01_000002_create_scenes_table.php
+✓ database/migrations/2024_01_01_000003_create_hotspots_table.php
+✓ database/migrations/2024_01_01_000004_create_artifacts_table.php
+✓ database/migrations/2024_01_01_000005_create_users_table.php
+
+DATABASE SEEDER (1 file)
+✓ database/seeders/DatabaseSeeder.php
+  └─ Includes sample data:
+     ├─ 3 Categories (Tradisi, Bangunan, Upacara)
+     ├─ 3 Scenes (Lembang Baruppu', Liang Alang, Makam Ma'nene)
+     ├─ 5 Artifacts (Tongkonan, Ma'nene, Keris, Li'pa', Si Galagala)
+     ├─ Multiple Hotspots (Info, Navigation, Artifact Links)
+     └─ Admin User (admin@toraja.test / password)
+
+VIEWS - Layouts (2 files)
+✓ resources/views/layouts/app.blade.php
+  └─ Frontend layout with navbar, footer, color theme
+✓ resources/views/layouts/admin.blade.php
+  └─ Admin sidebar layout with navigation
+
+VIEWS - Frontend (4 files)
+✓ resources/views/frontend/index.blade.php (Homepage)
+✓ resources/views/frontend/tour.blade.php (360° Panorama Viewer with Pannellum.js)
+✓ resources/views/artifact/index.blade.php (Artifact Catalog - Search & Filter)
+✓ resources/views/artifact/show.blade.php (Artifact Detail Page)
+
+VIEWS - Admin Dashboard (1 file)
+✓ resources/views/admin/dashboard.blade.php (Statistics & Quick Actions)
+
+VIEWS - Admin Scenes Management (3 files)
+✓ resources/views/admin/scenes/index.blade.php (List scenes with CRUD buttons)
+✓ resources/views/admin/scenes/create.blade.php (Add new scene form)
+✓ resources/views/admin/scenes/edit.blade.php (Edit scene form)
+
+VIEWS - Admin Hotspots Management (4 files)
+✓ resources/views/admin/hotspots/index.blade.php (List all hotspots)
+✓ resources/views/admin/hotspots/create.blade.php (Add hotspot form)
+✓ resources/views/admin/hotspots/edit.blade.php (Edit hotspot form)
+✓ resources/views/admin/hotspots/by-scene.blade.php (List by scene)
+
+VIEWS - Admin Artifacts Management (3 files)
+✓ resources/views/admin/artifacts/index.blade.php (List artifacts)
+✓ resources/views/admin/artifacts/create.blade.php (Add artifact form)
+✓ resources/views/admin/artifacts/edit.blade.php (Edit artifact form)
+
+VIEWS - Admin Categories Management (3 files)
+✓ resources/views/admin/categories/index.blade.php (List categories)
+✓ resources/views/admin/categories/create.blade.php (Add category form)
+✓ resources/views/admin/categories/edit.blade.php (Edit category form)
+
+LANGUAGE/LOCALIZATION (2 files)
+✓ resources/lang/en/messages.php (English UI labels - 40+ keys)
+✓ resources/lang/id/messages.php (Indonesian UI labels - 40+ keys)
+
+ROUTING (1 file)
+✓ routes/web.php (18+ routes defined for all features)
+
+CONFIGURATION (1 file)
+✓ .env.example (Environment variables template)
+
+PROJECT DOCUMENTATION (4 files)
+✓ README.md (200+ lines comprehensive documentation)
+✓ SETUP.md (Step-by-step installation guide)
+✓ composer.json (Project metadata & dependencies)
+✓ PROJECT_SUMMARY.txt (This file)
+
+DIRECTORIES CREATED
+✓ app/Models/
+✓ app/Http/Controllers/
+✓ app/Http/Controllers/Admin/
+✓ database/migrations/
+✓ database/seeders/
+✓ resources/views/
+✓ resources/views/layouts/
+✓ resources/views/frontend/
+✓ resources/views/admin/
+✓ resources/views/admin/scenes/
+✓ resources/views/admin/hotspots/
+✓ resources/views/admin/artifacts/
+✓ resources/views/admin/categories/
+✓ resources/views/artifact/
+✓ resources/lang/
+✓ resources/lang/en/
+✓ resources/lang/id/
+✓ routes/
+✓ config/
+✓ public/uploads/scenes/
+✓ public/uploads/artifacts/
+✓ public/img/
+✓ storage/app/public/
+✓ bootstrap/cache/
+
+DATABASE SCHEMA
+===============
+
+CATEGORIES Table
+├─ id (PK)
+├─ name (VARCHAR 255, UNIQUE)
+├─ slug (VARCHAR 255, UNIQUE)
+├─ description (TEXT)
+└─ timestamps
+
+SCENES Table
+├─ id (PK)
+├─ title (VARCHAR 255)
+├─ description (TEXT)
+├─ panorama_image (VARCHAR 255)
+├─ location (VARCHAR 255)
+├─ latitude (DECIMAL 10,8)
+├─ longitude (DECIMAL 11,8)
+├─ is_published (BOOLEAN)
+├─ order (INTEGER)
+└─ timestamps
+
+HOTSPOTS Table
+├─ id (PK)
+├─ scene_id (FK → scenes.id CASCADE)
+├─ title (VARCHAR 255)
+├─ description (TEXT)
+├─ pitch (DECIMAL 8,4) [-90 to 90]
+├─ yaw (DECIMAL 8,4) [0 to 360]
+├─ type (ENUM: info, scene, artifact)
+├─ linked_scene_id (FK → scenes.id NULLABLE)
+├─ artifact_id (FK → artifacts.id NULLABLE)
+└─ timestamps
+
+ARTIFACTS Table
+├─ id (PK)
+├─ category_id (FK → categories.id CASCADE)
+├─ name (VARCHAR 255)
+├─ description (TEXT)
+├─ cultural_significance (TEXT)
+├─ image (VARCHAR 255)
+├─ keywords (TEXT) [comma-separated]
+├─ is_published (BOOLEAN)
+└─ timestamps
+
+USERS Table
+├─ id (PK)
+├─ name (VARCHAR 255)
+├─ email (VARCHAR 255, UNIQUE)
+├─ email_verified_at (TIMESTAMP)
+├─ password (VARCHAR 255)
+├─ role (ENUM: admin, user)
+├─ remember_token (VARCHAR 100)
+└─ timestamps
+
+ROUTES SUMMARY
+==============
+
+PUBLIC ROUTES (Frontend)
+─────────────────────────
+GET  /                          → TourController@index (Homepage)
+GET  /tour/{scene}             → TourController@show (360° Viewer)
+GET  /tour-data/{scene}        → TourController@getSceneData (JSON data)
+GET  /artifacts                → ArtifactController@index (Catalog)
+GET  /artifacts/{artifact}     → ArtifactController@show (Detail)
+POST /artifacts/search         → ArtifactController@search (AJAX)
+GET  /language/{locale}        → Change language (id/en)
+
+ADMIN ROUTES (Protected by auth + admin middleware)
+────────────────────────────────────────────────────
+GET    /admin                  → AdminDashboardController@index
+GET    /admin/scenes           → SceneController@index
+GET    /admin/scenes/create    → SceneController@create
+POST   /admin/scenes           → SceneController@store
+GET    /admin/scenes/{id}/edit → SceneController@edit
+PUT    /admin/scenes/{id}      → SceneController@update
+DELETE /admin/scenes/{id}      → SceneController@destroy
+
+[Similar routes for hotspots, artifacts, categories]
+
+TECHNOLOGY STACK
+================
+
+Backend
+├─ Laravel 10
+├─ PHP 8.0+
+├─ MySQL 5.7+ (XAMPP)
+└─ Composer
+
+Frontend
+├─ Blade Templates
+├─ Bootstrap 5
+├─ Pannellum.js (CDN)
+├─ Font Awesome 6 (CDN)
+├─ JavaScript
+└─ CSS3
+
+Design
+├─ Dark Theme (#0f1412, #1a2320)
+├─ Green-Blue Accent (#2d9b6f, #3b82f6)
+├─ Responsive Layout
+└─ Mobile Optimized
+
+DEPLOYMENT CHECKLIST
+====================
+
+Before going live:
+☐ Run: composer install
+☐ Copy .env.example to .env
+☐ Generate: php artisan key:generate
+☐ Create database: virtual_tour_budaya_toraja
+☐ Run: php artisan migrate
+☐ Seed: php artisan db:seed
+☐ Link: php artisan storage:link
+☐ Test: php artisan serve
+☐ Verify all routes work
+☐ Test admin login
+☐ Upload test panorama images
+☐ Test all CRUD operations
+☐ Test bilingual switching
+☐ Test search & filter
+☐ Check file permissions on storage/
+
+FEATURES CHECKLIST
+==================
+
+Frontend
+✓ Homepage with scenes gallery
+✓ 360° panorama viewer (Pannellum)
+✓ Interactive hotspots
+✓ Scene navigation
+✓ Artifact catalog
+✓ Search functionality
+✓ Filter by category
+✓ Artifact detail pages
+✓ Bilingual UI (ID/EN)
+✓ Responsive design
+✓ Dark theme
+✓ Language switcher
+
+Admin
+✓ Dashboard with statistics
+✓ Scene CRUD (create, read, update, delete)
+✓ Hotspot CRUD
+✓ Artifact CRUD
+✓ Category CRUD
+✓ Image upload (scenes & artifacts)
+✓ Form validation
+✓ Pagination
+✓ Authentication
+
+Database
+✓ Category management
+✓ Multi-scene support
+✓ Hotspot positioning (pitch/yaw)
+✓ Artifact relationships
+✓ User authentication
+✓ Sample data (Toraja cultural content)
+
+IMPORTANT NOTES
+===============
+
+1. Hotspot Coordinates (Pitch/Yaw):
+   - Pitch: -90 (down), 0 (horizontal), +90 (up)
+   - Yaw: 0 (north), 90 (east), 180 (south), 270 (west)
+
+2. Panorama Images:
+   - Format: Equirectangular projection (360° photos)
+   - Size: 2048x1024px minimum recommended
+   - Format: JPG or PNG
+   - Max: 10MB per file
+   - Location: /public/uploads/scenes/
+
+3. Artifact Images:
+   - Format: JPG or PNG
+   - Max: 5MB per file
+   - Location: /public/uploads/artifacts/
+
+4. Language System:
+   - Default: Bahasa Indonesia (id)
+   - Supported: English (en)
+   - Stored in: resources/lang/{locale}/messages.php
+   - Session-based: Stored in $_SESSION['locale']
+
+5. Admin Account:
+   - Email: admin@toraja.test
+   - Password: password
+   - Role: admin (required for admin panel access)
+
+6. File Structure:
+   - DO NOT move/rename core Laravel directories
+   - Upload files go to: public/uploads/{scenes|artifacts}/
+   - Database logs: storage/logs/laravel.log
+   - Cache: storage/framework/cache/
+
+QUICK COMMANDS
+==============
+
+# Installation
+composer install
+php artisan key:generate
+php artisan migrate --seed
+
+# Development
+php artisan serve              # Start dev server
+php artisan tinker             # Laravel REPL
+php artisan route:list         # List all routes
+
+# Cache/Maintenance
+php artisan cache:clear
+php artisan view:clear
+php artisan config:cache
+
+# Database
+php artisan migrate            # Run migrations
+php artisan migrate:rollback   # Undo migrations
+php artisan db:seed            # Run seeders
+
+# Logs
+tail -f storage/logs/laravel.log
+
+END OF FILE LISTING
+===================
+
+Total Files: 50+
+Total Lines of Code: 3000+
+Database Tables: 5
+Routes Defined: 18+
+Language Keys: 40+
+Sample Data Records: 15+
+
+Status: ✅ COMPLETE AND READY FOR SETUP
+
+For installation instructions, see SETUP.md
+For full documentation, see README.md

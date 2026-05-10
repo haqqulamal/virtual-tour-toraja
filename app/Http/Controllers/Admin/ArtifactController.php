@@ -27,7 +27,7 @@ class ArtifactController extends Controller
      */
     public function create(): View
     {
-        $categories = Category::orderBy('name_id')->get();
+        $categories = Category::orderBy('name')->get();
         return view('admin.artifacts.create', compact('categories'));
     }
 
@@ -57,7 +57,7 @@ class ArtifactController extends Controller
      */
     public function edit(Artifact $artifact): View
     {
-        $categories = Category::orderBy('name_id')->get();
+        $categories = Category::orderBy('name')->get();
         return view('admin.artifacts.edit', compact('artifact', 'categories'));
     }
 

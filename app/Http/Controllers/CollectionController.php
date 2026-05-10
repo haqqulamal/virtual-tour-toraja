@@ -37,7 +37,7 @@ class CollectionController extends Controller
         $artifacts = $query->paginate(12)->withQueryString();
 
         // Get all categories for filter pills
-        $categories = Category::orderBy('name_id', 'asc')->get();
+        $categories = Category::orderBy('name', 'asc')->get();
 
         return view('collection.index', compact('artifacts', 'categories'));
     }

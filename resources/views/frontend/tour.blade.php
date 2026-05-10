@@ -2,7 +2,7 @@
 
 @section('title', $scene->title . ' - Virtual Tour')
 
-@section('extra_css')
+@push('styles')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
 <style>
     #panorama {
@@ -47,7 +47,9 @@
         }
     }
 </style>
-@endsection
+@endpush
+
+@section('content')
 
 @section('content')
 <div class="container my-5">

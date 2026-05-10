@@ -11,8 +11,8 @@ class Category extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name_id',
-        'name_en',
+        'name',
+        'description',
         'slug',
     ];
 
@@ -35,6 +35,27 @@ class Category extends Model
     public function getLocalizedName(): string
     {
         $locale = app()->getLocale();
-        return $locale === 'id' ? $this->name_id : $this->name_en;
+
+        return $this->name;
+    }
+
+    public function getNameIdAttribute(): ?string
+    {
+        return $this->name;
+    }
+
+    public function getNameEnAttribute(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setNameIdAttribute($value): void
+    {
+        $this->attributes['name'] = $value;
+    }
+
+    public function setNameEnAttribute($value): void
+    {
+        $this->attributes['name'] = $value;
     }
 }

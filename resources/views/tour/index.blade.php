@@ -2,6 +2,8 @@
 
 @section('title', 'Virtual Tour - Jelajahi Budaya Toraja')
 
+@section('content')
+
 @push('styles')
 <style>
     .hero {

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->float('yaw');   // horizontal angle
             $table->enum('type', ['info', 'navigation'])->default('info');
             $table->foreignId('linked_scene_id')->nullable()->constrained('scenes')->nullOnDelete();
-            $table->foreignId('artifact_id')->nullable()->constrained()->nullOnDelete();
+            $table->foreignId('artifact_id')->nullable();
             $table->timestamps();
         });
     }

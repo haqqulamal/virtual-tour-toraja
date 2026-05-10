@@ -2,6 +2,8 @@
 
 @section('title', $artifact->getLocalizedTitle() . ' - Koleksi Budaya Toraja')
 
+@section('content')
+
 @push('styles')
 <style>
     /* Breadcrumb */

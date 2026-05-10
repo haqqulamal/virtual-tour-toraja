@@ -2,6 +2,8 @@
 
 @section('title', 'Koleksi Budaya Toraja')
 
+@section('content')
+
 @push('styles')
 <style>
     /* Page Header */

@@ -21,13 +21,16 @@ class StoreHotspotRequest extends FormRequest
     {
         return [
             'scene_id' => 'required|exists:scenes,id',
-            'type' => 'required|in:info,scene',
+            'type' => 'required|in:info,scene,artifact',
             'pitch' => 'required|numeric|between:-90,90',
             'yaw' => 'required|numeric|between:0,360',
             'title' => 'required|string|max:255',
+            'description' => 'nullable|string|max:1000',
             'content' => 'nullable|string|max:1000',
             'image_path' => 'nullable|image|mimes:jpg,jpeg,png|max:5120', // 5MB
             'target_scene_id' => 'nullable|exists:scenes,id|different:scene_id',
+            'linked_scene_id' => 'nullable|exists:scenes,id|different:scene_id',
+            'artifact_id' => 'nullable|exists:artifacts,id',
         ];
     }
 
@@ -50,6 +53,9 @@ class StoreHotspotRequest extends FormRequest
             'image_path.max' => __('validation.image_max_size', ['size' => '5MB']),
             'target_scene_id.exists' => __('validation.target_scene_not_found'),
             'target_scene_id.different' => __('validation.target_scene_different'),
+            'linked_scene_id.exists' => __('validation.target_scene_not_found'),
+            'linked_scene_id.different' => __('validation.target_scene_different'),
+            'artifact_id.exists' => __('validation.artifact_not_found'),
         ];
     }
 }
